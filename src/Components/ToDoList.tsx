@@ -116,85 +116,93 @@ const TodoList: React.FC = () => {
           onClick={handleNewTodoAdd}
           data-testid="new-todo-add-button"
         >
-          Add
+          추가
         </SAddButton>
       </STodoForm>
       <STodoItems>
         {todos.map((todo) => (
           <STodoItem key={todo.id}>
-            <STodoItemContainer>
-              <SCheckbox
-                type="checkbox"
-                checked={todo.isCompleted}
-                onClick={() => handleTodoToggle(todo.id)}
-              />
-              <STodoLabel>
-                {isEditMode === todo.id ? (
-                  <STodoEditForm onSubmit={(e) => e.preventDefault()}>
-                    <SInput
-                      type="text"
-                      value={editedText}
-                      onChange={(e) => setEditedText(e.target.value)}
-                      onClick={(e) => e.stopPropagation()}
-                    />
-                    <SSubmitButton
-                      data-testid="submit-button"
-                      onClick={(e) => {
-                        handleTodoSubmit(todo.id, editedText);
-                      }}
-                      disabled={editedText.trim() === ""}
-                    >
-                      확인
-                    </SSubmitButton>
-                    <SCancelButton
-                      data-testid="cancel-button"
-                      onClick={(e) => {
-                        handleTodoCancel();
-                      }}
-                    >
-                      취소
-                    </SCancelButton>
-                  </STodoEditForm>
-                ) : (
-                  <>
-                    <STodoText isCompleted={todo.isCompleted}>
-                      {todo.todo}
-                    </STodoText>
-                    <SModifyButton
-                      data-testid="modify-button"
-                      onClick={(e) => {
-                        handleTodoEdit(todo.id, todo.todo);
-                      }}
-                    >
-                      수정
-                    </SModifyButton>
-                    <SDeleteButton
-                      data-testid="delete-button"
-                      onClick={(e) => {
-                        handleTodoDelete(todo.id);
-                      }}
-                    >
-                      삭제
-                    </SDeleteButton>
-                  </>
-                )}
-              </STodoLabel>
-            </STodoItemContainer>
+            <SCheckbox
+              type="checkbox"
+              checked={todo.isCompleted}
+              onClick={() => handleTodoToggle(todo.id)}
+            />
+            <STodoLabel>
+              {isEditMode === todo.id ? (
+                <STodoEditForm onSubmit={(e) => e.preventDefault()}>
+                  <SInput
+                    type="text"
+                    value={editedText}
+                    onChange={(e) => setEditedText(e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                  <SSubmitButton
+                    data-testid="submit-button"
+                    onClick={(e) => {
+                      handleTodoSubmit(todo.id, editedText);
+                    }}
+                    disabled={editedText.trim() === ""}
+                  >
+                    확인
+                  </SSubmitButton>
+                  <SCancelButton
+                    data-testid="cancel-button"
+                    onClick={(e) => {
+                      handleTodoCancel();
+                    }}
+                  >
+                    취소
+                  </SCancelButton>
+                </STodoEditForm>
+              ) : (
+                <SBtnContainer>
+                  <STodoText isCompleted={todo.isCompleted}>
+                    {todo.todo}
+                  </STodoText>
+                  <SModifyButton
+                    data-testid="modify-button"
+                    onClick={(e) => {
+                      handleTodoEdit(todo.id, todo.todo);
+                    }}
+                  >
+                    수정
+                  </SModifyButton>
+                  <SDeleteButton
+                    data-testid="delete-button"
+                    onClick={(e) => {
+                      handleTodoDelete(todo.id);
+                    }}
+                  >
+                    삭제
+                  </SDeleteButton>
+                </SBtnContainer>
+              )}
+            </STodoLabel>
           </STodoItem>
         ))}
       </STodoItems>
     </SContainer>
   );
 };
-
+const SBtnContainer = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+`;
 const SContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 40px;
+
   margin-top: 30px;
 `;
 
-const STitle = styled.h1``;
+const STitle = styled.h1`
+  margin-bottom: 15px;
+`;
 
 const STodoForm = styled.div`
   display: flex;
@@ -219,10 +227,6 @@ const STodoItem = styled.li`
   display: flex;
   align-items: center;
   margin-bottom: 10px;
-`;
-
-const STodoItemContainer = styled.div`
-  display: flex;
 `;
 
 const STodoLabel = styled.div`
@@ -267,6 +271,7 @@ const SDeleteButton = styled.button``;
 
 const STodoEditForm = styled.form`
   display: flex;
+  gap: 5px;
   align-items: center;
 `;
 
