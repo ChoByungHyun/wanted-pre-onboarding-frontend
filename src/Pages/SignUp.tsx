@@ -1,7 +1,8 @@
+import SignForm from "Components/SignForm";
 import React from "react";
 
 const SignUp = () => {
-  return <div></div>;
+  return <SignForm isSignUp />;
 };
 
 export default SignUp;
