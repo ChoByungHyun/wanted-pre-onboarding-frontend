@@ -1,8 +1,9 @@
-import { createBrowserRouter, useNavigate } from "react-router-dom";
+import { createBrowserRouter, useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
 import App from "App";
 import SignIn from "Pages/SignIn";
 import SignUp from "Pages/SignUp";
-import ToDoList from "Pages/ToDoList";
+import ToDo from "Pages/ToDo";
 import Landing from "Components/Landing";
 
 const router = createBrowserRouter([
@@ -16,26 +17,24 @@ const router = createBrowserRouter([
       },
       {
         path: "signin",
-        element: <SignIn />,
+        element: <ProtectedRoute element={<SignIn />} path="signin" />,
       },
       {
         path: "signup",
-        element: <SignUp />,
+        element: <ProtectedRoute element={<SignUp />} path="signup" />,
       },
       {
-        path: "todolist",
-        element: <ProtectedRoute element={<ToDoList />} path="todolist" />,
+        path: "todo",
+        element: <ProtectedRoute element={<ToDo />} path="todo" />,
       },
     ],
   },
 ]);
-// Function to check if the user is logged in
 function isLoggedIn() {
   const token = localStorage.getItem("token");
   return !!token;
 }
 
-// Wrap the router element with a custom component that handles redirection
 function ProtectedRoute({
   element,
   path,
@@ -44,18 +43,19 @@ function ProtectedRoute({
   path: string;
 }) {
   const navigate = useNavigate();
+  const params = useParams();
 
-  if (path === "signin" || path === "signup") {
-    if (isLoggedIn()) {
-      navigate("/todolist");
-      return null;
+  useEffect(() => {
+    if (path === "signin" || path === "signup") {
+      if (isLoggedIn()) {
+        navigate("/todo");
+      }
+    } else {
+      if (!isLoggedIn()) {
+        navigate("/signin");
+      }
     }
-  } else {
-    if (!isLoggedIn()) {
-      navigate("/signin");
-      return null;
-    }
-  }
+  }, [params]);
 
   return element;
 }
