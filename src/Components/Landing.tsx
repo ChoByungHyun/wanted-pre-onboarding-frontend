@@ -10,7 +10,7 @@ const Landing = () => {
   }
   return (
     <>
-      <Button $width="90%" type="button" onClick={handleClick}>
+      <Button $width="90%" type="button" $fontSize="20px" onClick={handleClick}>
         어서오세요 메모하시겠어요?
       </Button>
     </>
