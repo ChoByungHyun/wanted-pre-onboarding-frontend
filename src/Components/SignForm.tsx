@@ -2,8 +2,8 @@ import React, { FC, useState, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Button from "./Common/Button";
-import Input from "./Common/Input";
-
+import Input from "./Common/SignInput";
+import useAPI from "API/API";
 interface AuthFormProps {
   isSignUp: boolean;
 }
@@ -14,21 +14,29 @@ const SignForm: FC<AuthFormProps> = ({ isSignUp }) => {
   const [password, setPassword] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [isPasswordValid, setIsPasswordValid] = useState(true);
-  const token = localStorage.getItem("token");
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const api = useAPI();
+
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!isEmailValid || !isPasswordValid) {
       return;
     }
 
-    const fakeToken = "fakejwt"; // Replace with actual JWT token
-    localStorage.setItem("token", fakeToken);
+    try {
+      if (isSignUp) {
+        const response = await api.signup(email, password);
+      } else {
+        const response = await api.signin(email, password);
+      }
 
-    if (isSignUp) {
-      navigate("/signin");
-    } else {
-      navigate("/todo");
+      if (isSignUp) {
+        navigate("/signin");
+      } else {
+        navigate("/todolist");
+      }
+    } catch (error) {
+      console.error("Authentication error:", error);
     }
   };
 
@@ -60,31 +68,28 @@ const SignForm: FC<AuthFormProps> = ({ isSignUp }) => {
           }}
           isValid={isPasswordValid}
         />
-        {/* {!isEmailValid ||
-          (!isPasswordValid && (
-            <SErrorMessage>유효하지 않은 입력입니다.</SErrorMessage>
-          ))} */}
+
         <SBtnLayout>
           <Button
-            $width="90%" // Full width
-            $fontSize="18px" // Larger font size
+            $width="90%"
+            $fontSize="18px"
             type="submit"
             data-testid={isSignUp ? "signup-button" : "signin-button"}
-            disabled={!isEmailValid || !isPasswordValid}
+            $isDisabled={!isEmailValid || !isPasswordValid}
           >
             {isSignUp ? "회원가입" : "로그인"}
           </Button>
           {isSignUp ? (
             <SAlternateButton
               onClick={() => navigate("/signin")}
-              $fontSize="14px" // Smaller font size
+              $fontSize="14px"
             >
               로그인
             </SAlternateButton>
           ) : (
             <SAlternateButton
               onClick={() => navigate("/signup")}
-              $fontSize="14px" // Smaller font size
+              $fontSize="14px"
             >
               회원가입
             </SAlternateButton>
