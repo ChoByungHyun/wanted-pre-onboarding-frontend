@@ -33,7 +33,7 @@ const SignForm: FC<AuthFormProps> = ({ isSignUp }) => {
       if (isSignUp) {
         navigate("/signin");
       } else {
-        navigate("/todolist");
+        navigate("/todo");
       }
     } catch (error) {
       console.error("Authentication error:", error);
