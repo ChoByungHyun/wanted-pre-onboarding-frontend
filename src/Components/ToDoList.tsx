@@ -33,7 +33,8 @@ const TodoList: React.FC = () => {
     setNewTodo(e.target.value);
   };
 
-  const handleNewTodoAdd = async () => {
+  const handleNewTodoAdd = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (newTodo.trim() === "") return;
 
     try {
@@ -104,7 +105,7 @@ const TodoList: React.FC = () => {
   return (
     <SContainer>
       <STitle>메모장</STitle>
-      <STodoForm>
+      <STodoForm onClick={(e) => handleNewTodoAdd(e)}>
         <SInput
           type="text"
           placeholder="메모를 입력하세요"
@@ -112,10 +113,7 @@ const TodoList: React.FC = () => {
           onChange={handleNewTodoChange}
           data-testid="new-todo-input"
         />
-        <SAddButton
-          onClick={handleNewTodoAdd}
-          data-testid="new-todo-add-button"
-        >
+        <SAddButton type="submit" data-testid="new-todo-add-button">
           추가
         </SAddButton>
       </STodoForm>
@@ -143,7 +141,7 @@ const TodoList: React.FC = () => {
                     }}
                     disabled={editedText.trim() === ""}
                   >
-                    확인
+                    제출
                   </SSubmitButton>
                   <SCancelButton
                     data-testid="cancel-button"
