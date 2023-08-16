@@ -204,7 +204,7 @@ const STitle = styled.h1`
   margin-bottom: 15px;
 `;
 
-const STodoForm = styled.div`
+const STodoForm = styled.form`
   display: flex;
   align-items: center;
   margin-bottom: 20px;
