@@ -75,7 +75,12 @@ const SignForm: FC<AuthFormProps> = ({ isSignUp }) => {
             $fontSize="18px"
             type="submit"
             data-testid={isSignUp ? "signup-button" : "signin-button"}
-            $isDisabled={!isEmailValid || !isPasswordValid}
+            $isDisabled={
+              !isEmailValid ||
+              !isPasswordValid ||
+              email === "" ||
+              password === ""
+            }
           >
             {isSignUp ? "회원가입" : "로그인"}
           </Button>
