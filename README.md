@@ -15,7 +15,6 @@ npm start
 ```
 
 ### 실행화면
-![대표이미지](https://github.com/ChoByungHyun/wanted-pre-onboarding-frontend/assets/102468625/bb395c34-0d9c-4244-96e5-338394862be6)
 <img width="431" src="https://github.com/ChoByungHyun/wanted-pre-onboarding-frontend/assets/102468625/bb395c34-0d9c-4244-96e5-338394862be6" alt="main_image">
 <img width="431" alt="image" src="https://github.com/ChoByungHyun/wanted-pre-onboarding-frontend/assets/102468625/4fae3746-dea0-41e2-936a-27de616ca4f9">
 
